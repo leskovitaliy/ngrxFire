@@ -2,9 +2,13 @@ import {Component, OnInit} from '@angular/core';
 
 import {Subscription} from 'rxjs/Subscription';
 
-import {map} from 'rxjs/operators';
+import {map, switchMap, tap, switchMapTo} from 'rxjs/operators';
 import {timer} from 'rxjs/observable/timer';
 import {from} from 'rxjs/observable/from';
+import {Observable} from 'rxjs/Observable';
+import {Subject} from 'rxjs/Subject';
+import {interval} from 'rxjs/observable/interval';
+
 
 
 @Component({
@@ -40,19 +44,31 @@ export class RxjsTestComponent implements OnInit {
       }
     );*/
 
-    const sourceTimer = timer(1000, 1000);
+   /* const sourceTimer = timer(1000, 1000);
     sourceTimer
       .pipe(
         map((count: any) => ++count)
       )
       .subscribe(value => {
         console.log(value);
-      });
+      });*/
 
     /*const source = from([1, 2, 3, 4, 5]);
     source.pipe(
-      map(val => val + 10)
+      map(val => val + 10),
     ).subscribe(val => console.log(val));*/
+
+    const test = [3, 3, 2, 3, 6];
+    const source = from([1, 2, 3, 4, 5]);
+    source.pipe(
+      tap(val => {
+        ++val;
+        console.log('val', val);
+      }),
+      switchMapTo(() => test),
+      map(val => val + 0)
+    ).subscribe(val => console.log(val));
+
   }
 
 }
