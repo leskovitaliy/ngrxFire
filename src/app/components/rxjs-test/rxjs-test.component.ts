@@ -57,18 +57,6 @@ export class RxjsTestComponent implements OnInit {
     source.pipe(
       map(val => val + 10),
     ).subscribe(val => console.log(val));*/
-
-    const test = [3, 3, 2, 3, 6];
-    const source = from([1, 2, 3, 4, 5]);
-    source.pipe(
-      tap(val => {
-        ++val;
-        console.log('val', val);
-      }),
-      switchMapTo(() => test),
-      map(val => val + 0)
-    ).subscribe(val => console.log(val));
-
   }
 
 }

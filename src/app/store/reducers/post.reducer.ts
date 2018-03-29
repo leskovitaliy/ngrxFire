@@ -5,7 +5,7 @@ export type Action = PostActions.All;
 
 /// Default app state
 const defaultState: Post = {
-  text: 'Hello. I am the default post',
+  text: 'Default post text',
   likes: 0
 };
 
@@ -13,7 +13,6 @@ const defaultState: Post = {
 const newState = (state, newData) => {
   return Object.assign({}, state, newData);
 };
-
 
 /// Reducer function
 export function postReducer(state: Post = defaultState, action: Action) {
@@ -23,10 +22,10 @@ export function postReducer(state: Post = defaultState, action: Action) {
     case PostActions.EDIT_TEXT:
       return newState(state, {text: action.payload});
 
-    case PostActions.UPVOTE:
+    case PostActions.LIKE:
       return newState(state, {likes: state.likes + 1});
 
-    case PostActions.DOWNVOTE:
+    case PostActions.DISLIKE:
       return newState(state, {likes: state.likes - 1});
 
     case PostActions.RESET:
@@ -37,3 +36,5 @@ export function postReducer(state: Post = defaultState, action: Action) {
 
   }
 }
+
+
