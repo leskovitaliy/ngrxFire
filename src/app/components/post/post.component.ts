@@ -26,11 +26,11 @@ export class PostComponent implements OnInit {
   }
 
   like() {
-    this.store.dispatch(new PostActions.Like());
+    this.store.dispatch(new PostActions.Increment());
   }
 
   dislike() {
-    this.store.dispatch(new PostActions.Dislike());
+    this.store.dispatch(new PostActions.Decrement());
   }
 
   resetPost() {

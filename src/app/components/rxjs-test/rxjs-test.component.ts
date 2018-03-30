@@ -10,7 +10,6 @@ import {Subject} from 'rxjs/Subject';
 import {interval} from 'rxjs/observable/interval';
 
 
-
 @Component({
   selector: 'app-rxjs-test',
   templateUrl: './rxjs-test.component.html',
@@ -18,45 +17,71 @@ import {interval} from 'rxjs/observable/interval';
 })
 export class RxjsTestComponent implements OnInit {
 
-
-  private _checkStatusSub: Subscription;
+  // private _checkStatusSub: Subscription;
 
   constructor() {
   }
 
   ngOnInit() {
-    /*const source = new Observable((observer) => {
-      setInterval(() => {
-        observer.next(count++);
-        // observer.complete();
-      }, 1500);
+    const observer = {
+      next: (data) => {
+        console.log(data);
+      },
+      complete: () => {
+        console.log('Done');
+      },
+      error: (err) => {
+        console.log('Error: ', err);
+      }
+    };
+
+    const arrayObservable = this.createObservable((obs) => {
+      [1, 2, 3, 4, 5].forEach(obs.next);
+      obs.complete();
+      // document.addEventListener('click', next);
     });
 
-    const subject = source.subscribe(
-      (value) => {
-        console.log('next: ', value);
-      },
-      (err) => {
-        console.log('err: ', err);
-      },
-      () => {
-        console.log('completed');
+    const intervalObservable = this.createObservable((obs) => {
+        // document.addEventListener('click', next);
+        let counts = 0;
+
+        const intervalId = setInterval(() => {
+          counts++;
+          obs.next(counts);
+
+          if (counts > 5) {
+            clearInterval(intervalId);
+            obs.complete();
+          }
+        }, 300);
       }
-    );*/
+    );
 
-   /* const sourceTimer = timer(1000, 1000);
-    sourceTimer
-      .pipe(
-        map((count: any) => ++count)
-      )
-      .subscribe(value => {
-        console.log(value);
-      });*/
 
-    /*const source = from([1, 2, 3, 4, 5]);
-    source.pipe(
-      map(val => val + 10),
-    ).subscribe(val => console.log(val));*/
+    arrayObservable.subscribe(observer);
+    intervalObservable
+      .map(x => x * 10)
+      .subscribe(observer);
+  }
+
+  createObservable(subscribeFn) {
+    return {
+      subscribe: subscribeFn,
+      map: this.mapFn
+    };
+  }
+
+  mapFn(transformationFn) {
+    const inputObservable = this;
+    const outputObservable = this.createObservable((obs) => {
+      inputObservable.subscribe({
+        next: (x) => obs.next(transformationFn(x)),
+        complete: () => obs.complete(),
+        error: (err) => obs.error(err)
+      });
+    });
+
+    return outputObservable;
   }
 
 }

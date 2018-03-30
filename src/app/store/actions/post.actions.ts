@@ -1,8 +1,8 @@
 import {Action} from '@ngrx/store';
 
 export const EDIT_TEXT = '[Post] Edit';
-export const LIKE = '[Post] Like';
-export const DISLIKE = '[Post] Dislike';
+export const INCREMENT = '[Post] Increment';
+export const DECREMENT = '[Post] Decrement';
 export const RESET = '[Post] Reset';
 
 
@@ -14,12 +14,12 @@ export class EditText implements Action {
 }
 
 
-export class Like implements Action {
-  readonly type = LIKE;
+export class Increment implements Action {
+  readonly type = INCREMENT;
 }
 
-export class Dislike implements Action {
-  readonly type = DISLIKE;
+export class Decrement implements Action {
+  readonly type = DECREMENT;
 }
 
 export class Reset implements Action {
@@ -27,7 +27,7 @@ export class Reset implements Action {
 }
 
 export type All
-  = Like
-  | Dislike
+  = Increment
+  | Decrement
   | Reset
   | EditText;

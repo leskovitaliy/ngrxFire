@@ -22,10 +22,10 @@ export function postReducer(state: Post = defaultState, action: Action) {
     case PostActions.EDIT_TEXT:
       return newState(state, {text: action.payload});
 
-    case PostActions.LIKE:
+    case PostActions.INCREMENT:
       return newState(state, {likes: state.likes + 1});
 
-    case PostActions.DISLIKE:
+    case PostActions.DECREMENT:
       return newState(state, {likes: state.likes - 1});
 
     case PostActions.RESET:
